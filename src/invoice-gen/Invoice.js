@@ -3,22 +3,22 @@ import './invoice.css'
 function Invoice() {
   // const [formValues,setFormValues]=useState(initialValues);
   const [data,setData]=useState({
-    id: null,
-    invoicenumber:null,
+    id:0,
+    invoicenumber:undefined,
     company:'',
     name:'',
     address:'',
     city:'',
     postalcode:'',
     phone:'',
-    companyId:null,
+    companyId:undefined,
     iban:'',
     bic:'',
     rcompany:'',
     rname:'',
     raddress:'',
     rcity:'',
-  })
+})
   // const [errors,setErrors]=useState({})
   // const [id,setId]=useState(0)
   // const [invoicenumber,setInvoicenumber]=useState(0)
@@ -168,7 +168,18 @@ function Invoice() {
             onChange={handleChange}/><br/>
         </div>
        <div className='middlebar'>
-  
+       {/* {Object.keys(data).map((item, index) => {
+              return (
+                <>
+                  <ul>
+                    <li key={index}>{data[item].id}</li>
+                     <li key={index}>{formVal.invoicenumber}</li>
+                    <li key={index}>{formVal.company}</li>
+                    <li key={index}>{formVal.name}</li> 
+                  </ul>
+                </>
+              );
+            })} */}
        </div>
        <div className='rightbar'>
               hddd
