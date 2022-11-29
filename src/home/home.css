@@ -1,0 +1,9 @@
+.invoice{
+        border-radius: 30px;
+        background-color: cornflowerblue;
+        color: white;
+        cursor: pointer;
+}
+.header{
+    color: green;
+}
