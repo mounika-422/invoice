@@ -7,10 +7,10 @@
     width: 5px;
 }
 ::-webkit-scrollbar-track{
-    background-color: #e8e8ee;
+    background-color: #b92b8a;
 }
 ::-webkit-scrollbar-thumb{
-    background-color:rgb(201, 192, 192);
+    background-color:rgb(160, 82, 140);
 }
 .sidebarWrapper{
     flex: 3;
@@ -20,10 +20,29 @@
     padding: 20px;
     flex: 3;
     overflow-y: scroll;
+    background-color:silver
 }
 .middlebar{
-    flex:9
+    flex: 9;
+    margin-left: 20px;
+    
 }
 .rightbar{
     flex:3;
 }
+.addService{
+    border-radius: 30px;
+    background-color: darkgreen;
+    color: #e8e8ee;
+}
+table {
+    border-collapse: collapse;
+    height: 10px;
+    width: 100%;
+ }
+ table tr td {
+    border: 1px solid gray;
+ }
+ .ip1,.ip2,.ip3,.ip4{
+    width: 101px;
+ }

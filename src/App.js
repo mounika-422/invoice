@@ -1,5 +1,6 @@
 import './App.css';
-import Home from './home/Home';
+// import Dynamic from './dynamicforms/Dynamic';
+// import Home from './home/Home';
 import Invoice from './invoice-gen/Invoice';
 function App() {
   return (
