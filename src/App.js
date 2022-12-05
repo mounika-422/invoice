@@ -1,11 +1,10 @@
+// import Table from './Table';
 import './App.css';
-// import Dynamic from './dynamicforms/Dynamic';
-// import Home from './home/Home';
-import Invoice from './invoice-gen/Invoice';
+ import Home from './home/Home';
 function App() {
   return (
     <div>
-      <Invoice/>
+       <Home/> 
     </div>
   );
 }

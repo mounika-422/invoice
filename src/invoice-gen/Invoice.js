@@ -1,19 +1,31 @@
 import React, { useState } from 'react'
+import Table from  '../Table'
+// import Table from "react-bootstrap/Table";
 import './invoice.css'
 function Invoice() {
-
-  // const [errors,setErrors]=useState({})
-  const [inputFields,setInputFields]=useState([
-      {service:"",taxfree:undefined,taxpercent:undefined,tax:undefined}
-
+ const initialValues={
+      // id:window.self.crypto.randomUUID(),
+      service:'',
+      taxfree:'',
+      taxpercent:'',
+      tax:'',
+      total:'',
+ }
+  let [formValues,setFormValues]=useState([
+      // {
+      //       id:1,
+      //       service:'',
+      //       taxfree:'',
+      //       taxpercent:'',
+      //       tax:'',
+      //       total:'',
+      // }
+      initialValues
+     
   ]);
-//   const [service,setService]=useState('');
-//   const [taxfree,setTaxfree]=useState('');
-//   const [taxpercent,setTaxPercent]=useState('');
-//   const [tax,setTax]=useState('');
-  const [total,setTotal]=useState('')
+  const [list,setList]=useState([])
+  const [isInputs,setIsInputs]=useState(false);
   const [isSubmit,setIsSubmit]=useState(false);
-  const [isInputs,setisInputs]=useState(false)
   const [id,setId]=useState()
   const [invoicenumber,setInvoicenumber]=useState()
   const [company,setCompany]=useState("");
@@ -29,29 +41,40 @@ function Invoice() {
   const [rName,setRname]=useState('');
   const [raddress,setRaddress]=useState('')
   const [rCity,setRcity]=useState('');
-  const initialValues={
-      service:'',
-      taxfree:undefined,
-      tax:undefined,
-  }
-  const [formValues,setFormValues]=useState(initialValues)
-  const handleChange=(e)=>{
+ 
+const handleChange= (e) => {
+      setFormValues({...formValues,[e.target.name]:e.target.value}); 
+ }
+ 
+const handleSubmit=(e)=>{
+      e.preventDefault();
       const {name,value}=e.target;
+      let taxx=parseInt(formValues.taxfree)*parseInt(formValues.taxpercent);
+      formValues.tax=taxx;
+      let totall=parseInt(formValues.taxfree)+parseInt(formValues.tax);
+      formValues.total=totall;
       setFormValues({...formValues,[name]:value}); 
+      // const list={
+      //       service:'',
+      //       taxfree:'',
+      //       taxpercent:'',
+      //       tax:'',
+      //       total:'',
+      //       id:window.self.crypto.randomUUID(),
+      // }
+      // setFormValues([...formValues,list])
+      // }
+      setIsSubmit(true);
+
 }
-  const handleSubmit=(e)=>{
-            e.preventDefault();
-            setIsSubmit(true);
-}
-      const handleformChange=(index,e)=>{
-      let data=[...inputFields];
-       data[index][e.target.name]=e.target.value;
-       setInputFields(data);
-   }
-const addFields=()=>{
-      let newFields={service:"",taxfree:undefined,taxpercent:undefined,tax:undefined}
-      setInputFields([...inputFields,newFields])
-}
+
+// const handletaxChange=(e)=>{
+//       const {name,value}=e.target;
+//       let tax=parseInt(formValues.taxfree)*parseInt(formValues.taxpercent)
+//       formValues.tax=tax;
+//       setFormValues({...formValues,[name]:value}); 
+//       console.log(formValues)
+// }
   return (
     <div className='container'>
         <div className='sidebarWrapper'>
@@ -60,16 +83,18 @@ const addFields=()=>{
                   <input 
                   type="number"
                   name='id'
+                  autoComplete='off'
                   value={id}
-                  className='sidebarInputId' 
+                  className='sidebarInput' 
                   placeholder='Enter id' 
                   onChange={(e)=>setId(e.target.value)} /><br/>
             <label>Invoice Number</label><br/>
             <input 
                   type="number"
                   value={invoicenumber}
+                  autoComplete='off'
                   name='invoicenumber'
-                  className='sidebarInputInvoiceNumber' 
+                  className='sidebarInput' 
                   placeholder='Enter invoice number'
                   onChange={e=>setInvoicenumber(e.target.value)}/><br/>
             <h3>Sender</h3><br/>
@@ -78,7 +103,8 @@ const addFields=()=>{
                   type="text"
                   name='company'
                   value={company}
-                  className='sidebarInputcompany'
+                  autoComplete='off'
+                  className='sidebarInput'
                   placeholder='Enter company name'  
                   onChange={e=>setCompany(e.target.value)}/><br/>
             <label>Name</label><br/>
@@ -86,62 +112,71 @@ const addFields=()=>{
                   type="text"
                   name='name'
                   value={name}
-                  className='sidebarInputname'
+                  autoComplete='off'
+                  className='sidebarInput'
                   placeholder='Enter Name' 
                   onChange={e=>setName(e.target.value)}/><br/>
             <label>Address</label><br/>
             <input 
                   type="text"
                   name='address'
+                  autoComplete='off'
                   value={address}
+                  className='sidebarInput'
                   placeholder='Enter Address'
                   onChange={e=>setAddress(e.target.value)}/><br/>
             <label>city</label><br/>
             <input 
                   type="text"
                   name='city'
+                  autoComplete='off'
                   value={city}
-                  className='sidebarInputcity'
+                  className='sidebarInput'
                   placeholder='Enter City' 
                   onChange={e=>setCity(e.target.value)}/><br/>
             <label>postal code</label><br/>
             <input
                   type="number"
                   name='postalcode'
+                  autoComplete='off'
                   value={postalcode}
-                  className='sidebarInputpostalcode' 
+                  className='sidebarInput' 
                   placeholder='Enter postal code'  
                   onChange={e=>setPostalcode(e.target.value)}/><br/>
             <label>phone</label><br/>
             <input 
                   type="text"
                   name='phone'
+                  autoComplete='off'
                   value={phone}
-                  className='sidebarInputphone' 
+                  className='sidebarInput' 
                   placeholder='Enter phone' 
                   onChange={e=>setPhone(e.target.value)}/><br/>
             <label>Company ID</label><br/>
             <input 
                   type="number"
                   name='companyId'
+                  autoComplete='off'
                   value={companyId}
-                  className='sidebarInputcompanyId' 
+                  className='sidebarInput' 
                   placeholder='Enter company id'  
                   onChange={e=>setCompanyId(e.target.value)}/><br/>
             <label>IBAN</label><br/>
             <input  
                   type="text"
                   name='iban'
+                  autoComplete='off'
                   value={iban}
-                  className='sidebarInputIban'
+                  className='sidebarInput'
                   placeholder='Enter IBAN'
                   onChange={e=>setIban(e.target.value)}/><br/>
             <label>BIC/SWIFT</label><br/>
             <input 
                   type="text"
                   name='bic'
+                  autoComplete='off'
                   value={bic}
-                  className='sidebarInputBic'
+                  className='sidebarInput'
                   placeholder='Enter BIC/SWIFT'
                   onChange={e=>setBic(e.target.value)}/><br/>
             <h3>Recipent</h3><br/>
@@ -149,38 +184,42 @@ const addFields=()=>{
             <input 
                   type="text"
                   name='rcompany'
+                  autoComplete='off'
                   value={rcompany}
-                  className='sidebarInputRcompany' 
+                  className='sidebarInput' 
                   placeholder='Enter COMPANY' 
                   onChange={e=>setRcompany(e.target.value)}/><br/>
             <label>Name</label><br/>
             <input   
                   type="text"
                   name='rname'
+                  autoComplete='off'
                   value={rName}
-                  className='sidebarInputId'
+                  className='sidebarInput'
                   placeholder='Enter NAME' 
                   onChange={e=>setRname(e.target.value)}/><br/>
             <label>Address</label><br/>
             <input 
                   type="text"
                   name='raddress'
+                  autoComplete='off'
                   value={raddress}
-                  className='sidebarInputRaddress'
+                  className='sidebarInput'
                   placeholder='Enter ADDRESS'
                   onChange={e=>setRaddress(e.target.value)}/><br/>
             <label>city</label><br/>
             <input 
                   type="text"
                   value={rCity}
+                  autoComplete='off'
                   name='rcity'
-                  className='sidebarInputRcity'
+                  className='sidebarInput'
                   placeholder='Enter CITY' 
                   onChange={e=>setRcity(e.target.value)}/><br/>
         </div>
        <div className='middlebar'>
              <h2> {company}</h2>
-             {name}<br/>
+              {name}<br/>
               {address}<br/>
               {city}<br/>
               {postalcode}<br/>
@@ -192,83 +231,34 @@ const addFields=()=>{
               {rName}<br/>
               {raddress}<br/>
               {rCity}<br/><br/>
-              
               {isSubmit?(
-                  <>
-                   <table name='outerTable'>
-                        <tr>
-                              <td>
-                                    <table name='innerTable'>
-                                    <tr>
-                                          <td>Service</td>
-                                          <td>Tax free</td>
-                                          <td>Tax %</td>
-                                          <td>Tax</td>
-                                    </tr>
-                                    </table>
-                              </td>
-                        </tr>
-                  </table>
-                  <form>
-                  {inputFields.map((input,index)=>{
-            return (
-                <div key={index}>
-                <input 
-                        name='ip1'
-                        className='ip1'
-                        type='number'
-                        onChange={(e)=>handleformChange(index,e)}
-                        value={formValues.service}
-                  />
-                  <input
-                        name='ip2'
-                        className='ip2'
-                        type='number'
-                        onChange={(e)=>handleformChange(index,e)}
-                        value={formValues.taxfree}
-                  />
-                  <input
-                        name='ip3'
-                        className='ip3'
-                        type='number'
-                        onChange={(e)=>handleformChange(index,e)}
-                        value={formValues.tax}
-                  />
-                  <input
-                        name='ip4'
-                        className='ip4'
-                        type='number'
-                        onChange={(e)=>handleChange(index,e)}
-                        //value={tax}
-                  />
-                  <button onClick={addFields}>Add service</button>
-                </div>
-            )
-           
-        })}
-                 
-                  </form>
-                 
-                   </>
-                 
+               <>
+                   <Table formvalues={formValues}/>
+                   <button onMouseOver={()=>setIsSubmit(false)}>Edit</button>
+                   <button onMouseOver={()=>setFormValues(initialValues)}>Delete</button>
+               </>
               )
-              :(
+              :( 
                   <>
-                {  isInputs?(
+                  {isInputs?(
                         <>
                         <form onSubmit={handleSubmit}>
                               <label>Add service</label><br/>
                               <input
                                     name='service'
-                                    className='serviceName'
+                                    type='text'
+                                    autoComplete='off'
+                                    className='tInput'
                                     placeholder='Enter Service/product name'
-                                    value={formValues.service}
+                                    value={formValues?.service}
                                     onChange={handleChange}
                               /><br/>
                               <label>TaxFree ammount</label><br/>
                               <input
                                     name="taxfree"
-                                    className='taxFreeeAmmount'
+                                    type='text'
+                                    autoComplete='off'
+                                    className='tInput'
                                     placeholder='Enter tax free ammount'
                                     value={formValues.taxfree}
                                     onChange={handleChange}
@@ -276,29 +266,50 @@ const addFields=()=>{
                               <label>Tax %</label><br/>
                               <input
                                     name='taxpercent'
-                                    className='taxpercent'
+                                    type='text'
+                                    autoComplete='off'
+                                    className='tInput'
                                     placeholder='Enter tax percentage'
-                                    value={formValues.tax}
+                                    value={formValues.taxpercent}
                                     onChange={handleChange}
                               /><br/>
-                              <button  type='submit' >Submit</button> 
-                        </form>            
+                              {/* <input
+                                    name='tax'
+                                    type='number'
+                                    className='tInput'
+                              
+                                    
+                                    // onChange={handletaxChange}
+                                    value={formValues.tax}
+                              /><br/>
+                              <input
+                                    name='total'
+                                    type='number'
+                                    className='tInput'
+                              
+                                    value={formValues.total}
+                                    // onChange={handletotalChange}
+                              /><br/> */}
+                              {/* <button   type='button'className="taxcalc" onClick={handleTax}>Calculate Tax & Total</button><br/> */}
+                              <button className="taxcalc" type='submit'>submit</button>
+                        </form>
+                      
                         </>
-                    ):(
-                       <>
-               <button className='addService' onClick={()=>setisInputs(true)}>Add service</button>
-                       </> 
-                    ) }
-
+                     ):(
+                        <>
+                        <button  type='button' className='addService' onClick={()=>setIsInputs(true)}>Add service</button>        
+                        </>
+                        
+                     )}
                   </>
-              )
-              }
+                    )}
        </div>
        <div className='rightbar'>
-             rightbar 
+            <h3>Invoice</h3>
+            {new Date().getDate()}.{new Date().getMonth()}.{new Date().getFullYear()}  <br/>
+            {invoicenumber}   
        </div>
     </div>
   )
 }
-
 export default Invoice

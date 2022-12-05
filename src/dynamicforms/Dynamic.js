@@ -9,6 +9,9 @@ function Dynamic() {
         data[index][e.target.name]=e.target.value;
         setInputFields(data);
     }
+    const addFields=()=>{
+      setInputFields([...inputFields, {name:"",age:""}]);
+    }
 
   return (
     <div>
@@ -21,21 +24,22 @@ function Dynamic() {
                 className='iname'
                 placeholder='Name'
                 value={input.name}
-                onChange={(e)=>handleChange(index,e)}
+                onChange={(e)=>handleChange(e,index)}
                 />
                 <input
                 name='age'
                 className='iage'
                 placeholder='Age'
                 value={input.age}
-                onChange={(e)=>handleChange(index,e)} 
+                onChange={(e)=>handleChange(e,index)} 
                 />
+              
                 </div>
             )
-           
         })}
        
       </form>
+      <button onClick={addFields}>Add</button>
     </div>
   )
 }
