@@ -1,31 +1,12 @@
-import React, { useState } from 'react'
-import Table from  '../Table'
-// import Table from "react-bootstrap/Table";
-import './invoice.css'
+import React, { useEffect, useState } from 'react'
+import Tablecopy from  './Tablecopy'
+import './invoice-gen/invoice.css'
+import Table from './Table';
+
 function Invoice() {
- const initialValues={
-      // id:window.self.crypto.randomUUID(),
-      service:'',
-      taxfree:'',
-      taxpercent:'',
-      tax:'',
-      total:'',
- }
-  let [formValues,setFormValues]=useState([
-      // {
-      //       id:1,
-      //       service:'',
-      //       taxfree:'',
-      //       taxpercent:'',
-      //       tax:'',
-      //       total:'',
-      // }
-      initialValues
-     
-  ]);
+   const [send,setSend]=useState(false);
   const [list,setList]=useState([])
   const [isInputs,setIsInputs]=useState(false);
-  const [isSubmit,setIsSubmit]=useState(false);
   const [id,setId]=useState()
   const [invoicenumber,setInvoicenumber]=useState()
   const [company,setCompany]=useState("");
@@ -41,40 +22,29 @@ function Invoice() {
   const [rName,setRname]=useState('');
   const [raddress,setRaddress]=useState('')
   const [rCity,setRcity]=useState('');
+  const [service,setService]=useState('');
+  const [taxfree,setTaxfree]=useState();
+  const [taxpercent,setTaxpercent]=useState();
+  const [tax,setTax]=useState();
+  const [total,setTotal]=useState(0);
+  const [wtotal,setWtotal]=useState(0);
  
-const handleChange= (e) => {
-      setFormValues({...formValues,[e.target.name]:e.target.value}); 
- }
- 
-const handleSubmit=(e)=>{
-      e.preventDefault();
-      const {name,value}=e.target;
-      let taxx=parseInt(formValues.taxfree)*parseInt(formValues.taxpercent);
-      formValues.tax=taxx;
-      let totall=parseInt(formValues.taxfree)+parseInt(formValues.tax);
-      formValues.total=totall;
-      setFormValues({...formValues,[name]:value}); 
-      // const list={
-      //       service:'',
-      //       taxfree:'',
-      //       taxpercent:'',
-      //       tax:'',
-      //       total:'',
-      //       id:window.self.crypto.randomUUID(),
-      // }
-      // setFormValues([...formValues,list])
-      // }
-      setIsSubmit(true);
-
-}
-
-// const handletaxChange=(e)=>{
-//       const {name,value}=e.target;
-//       let tax=parseInt(formValues.taxfree)*parseInt(formValues.taxpercent)
-//       formValues.tax=tax;
-//       setFormValues({...formValues,[name]:value}); 
-//       console.log(formValues)
-// }
+useEffect(()=>{
+  
+        setTax(taxfree*taxpercent);
+       
+},[tax]);
+useEffect(()=>{
+  
+    setTotal(parseInt(taxfree)+parseInt(tax));
+},[total]);
+// const Print = () => {
+//       let printContents=document.getElementById('printablediv').innerHTML;
+//       let originalContents=document.body.innerHTML;
+//       document.body.innerHTML=printContents;
+//       window.print()
+//       document.body.innerHTML=originalContents;
+//     }
   return (
     <div className='container'>
         <div className='sidebarWrapper'>
@@ -224,86 +194,53 @@ const handleSubmit=(e)=>{
               {city}<br/>
               {postalcode}<br/>
               {phone}<br/>
-              {companyId}
+              {companyId}<br/>
               {iban}<br/>
               {bic}<br/><br/>
-              {rcompany}<br/>
+              <h2>{rcompany}</h2><br/>
               {rName}<br/>
               {raddress}<br/>
               {rCity}<br/><br/>
-              {isSubmit?(
+              {isInputs?(
                <>
-                   <Table formvalues={formValues}/>
-                   <button onMouseOver={()=>setIsSubmit(false)}>Edit</button>
-                   <button onMouseOver={()=>setFormValues(initialValues)}>Delete</button>
+                  {/* <button onClick={()=>setSend(true)}>Send</button> */}
+                   <Tablecopy 
+                        service={service} 
+                        setService={setService}
+                        taxfree={taxfree} 
+                        setTaxfree={setTaxfree}
+                        taxpercent={taxpercent} 
+                        setTaxpercent={setTaxpercent}
+                        tax={tax} 
+                        setTax={setTax}
+                        total={total}
+                        setTotal={setTotal}
+                        list={list}
+                        setList={setList}
+                        wtotal={wtotal}
+                        setWtotal={setWtotal}/> 
+
+                  <Table  
+                  
+                  service={service} 
+                  taxfree={taxfree} 
+                  taxpercent={taxpercent} 
+                  tax={tax} 
+                  total={total}
+                  wtotal={wtotal}
+                  setWtotal={setWtotal}
+                  list={list}
+                  setList={setList}
+                  
+                  />
                </>
               )
               :( 
-                  <>
-                  {isInputs?(
-                        <>
-                        <form onSubmit={handleSubmit}>
-                              <label>Add service</label><br/>
-                              <input
-                                    name='service'
-                                    type='text'
-                                    autoComplete='off'
-                                    className='tInput'
-                                    placeholder='Enter Service/product name'
-                                    value={formValues?.service}
-                                    onChange={handleChange}
-                              /><br/>
-                              <label>TaxFree ammount</label><br/>
-                              <input
-                                    name="taxfree"
-                                    type='text'
-                                    autoComplete='off'
-                                    className='tInput'
-                                    placeholder='Enter tax free ammount'
-                                    value={formValues.taxfree}
-                                    onChange={handleChange}
-                              /><br/>
-                              <label>Tax %</label><br/>
-                              <input
-                                    name='taxpercent'
-                                    type='text'
-                                    autoComplete='off'
-                                    className='tInput'
-                                    placeholder='Enter tax percentage'
-                                    value={formValues.taxpercent}
-                                    onChange={handleChange}
-                              /><br/>
-                              {/* <input
-                                    name='tax'
-                                    type='number'
-                                    className='tInput'
-                              
-                                    
-                                    // onChange={handletaxChange}
-                                    value={formValues.tax}
-                              /><br/>
-                              <input
-                                    name='total'
-                                    type='number'
-                                    className='tInput'
-                              
-                                    value={formValues.total}
-                                    // onChange={handletotalChange}
-                              /><br/> */}
-                              {/* <button   type='button'className="taxcalc" onClick={handleTax}>Calculate Tax & Total</button><br/> */}
-                              <button className="taxcalc" type='submit'>submit</button>
-                        </form>
-                      
-                        </>
-                     ):(
-                        <>
-                        <button  type='button' className='addService' onClick={()=>setIsInputs(true)}>Add service</button>        
-                        </>
-                        
-                     )}
-                  </>
-                    )}
+                  <button  type='button' className='addService' onClick={()=>setIsInputs(true)}>Add service</button>        
+            )}
        </div>
+       {/* <div id='printablediv' className='print'>Print</div>
+       <button type='button' onClick={Print}>Print div </button> */}
        <div className='rightbar'>
             <h3>Invoice</h3>
             {new Date().getDate()}.{new Date().getMonth()}.{new Date().getFullYear()}  <br/>

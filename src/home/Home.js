@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {Routes,Route,useNavigate} from 'react-router-dom';
-import Invoice from '../invoice-gen/Invoice';
+import Invoice from '../Invoice'
 import './home.css';
 export default function Home() {
   //const [createinvoice,setCreateInvoice]=useState(false);
